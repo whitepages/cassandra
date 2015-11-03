@@ -188,7 +188,7 @@ final class HintsDispatchExecutor
             // all the dispatch tasks (as there will be at most one dispatch task for a particular host id at a time).
             int nodesCount = Math.max(1, StorageService.instance.getTokenMetadata().getAllEndpoints().size() - 1);
             int throttleInKB = DatabaseDescriptor.getHintedHandoffThrottleInKB() / nodesCount;
-            this.rateLimiter = RateLimiter.create(throttleInKB == 0 ? Double.MAX_VALUE : throttleInKB * 1024);
+            this.rateLimiter = RateLimiter.create(throttleInKB <= 0 ? Double.MAX_VALUE : throttleInKB * 1024.0);
         }
 
         public void run()
